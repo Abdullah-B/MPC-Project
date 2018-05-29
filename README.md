@@ -7,14 +7,20 @@ Self-Driving Car Engineer Nanodegree Program
 ## About the Modle
 
 The simulator returns variables that desribe the state of the car in the simulation, these values are used as input for the MPC. The modle that we used is the one introduced in the class, first we pass it the state that we got from the simulator then, the solver will use the Model, Constraints and Cost functions to produce a vector of controlled inputs that minimizes the cost function.
+the state that is used in this model is made up of the X-position, the y-position, the vehicle orientation and the velocity.
+The Actuator which is in charge of controling the system is needed for the steering angle and the throtlle and brake pedals.(each has its own actuator)
+and Finaly the Update equations x = x + v*cos(ψ)* dt | y = y + v sin(psi) dt | v=v+a∗dt (a at [-1,1]) |ψ=ψ+(v/L_f)*δ∗dt
+
+But before we start we fitted a polynomial to the waypoint, reson is that the simulator gives us coordinates of the car from the map, what we did was use the polynomial to transform these values into the point of view of our car, which makes it easier to then process.
 
 next lets talk a bit about N and dt
-
 Timestep Length and Elapsed Duration 
+
 
 ## N (Timestep Length) and dt (Elapsed Durtion)
 
 After some playing around and watching a very usefull video ( https://youtu.be/bOQuhpz3YfU) we learned that the increase in the value of the timester N means too many calculations that the function has to do and that will slow the process significantly, when it should be happening in real time. And increasing the ELapsed Duration dt will prompt the model to look way into the future and that will lead into confusion while making decisions. Where the video refrenced above suggested to put N = 10 and dt = 0.1 which means that the optimization will be happening one second ahead for every 10 timesteps meaning that the view will be 10 seconds forward.
+
 
 next comes the latency
 
